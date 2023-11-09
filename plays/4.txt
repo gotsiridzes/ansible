@@ -1,0 +1,19 @@
+- name: deployment using roles
+  hosts: all
+  become: true
+
+  roles:
+
+    - name: install
+      vars:
+        packages: "{{ packages }}"
+
+    - name: clone
+      vars:
+        repoUrl: "{{ repoUrl }}"
+        repoDest: "{{ repoDest }}"
+
+    - name: pm2
+      vars:
+        nodeService: "{{ nodeService }}"
+        appPath: "{{ repoDest }}"

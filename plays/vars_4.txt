@@ -1,0 +1,4 @@
+packages: nginx,nodejs,git
+repoUrl: https://github.com/fropa/nodejs-hello.git
+repoDest: /tmp/repo-tmp/
+nodeService: /usr/local/bin/pm2

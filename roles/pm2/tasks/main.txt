@@ -1,0 +1,5 @@
+- name: check pm2 package
+  command: npm install pm2@latest -g
+
+- name: start app with pm2
+  command: '{{ nodeService }} start {{ repoDest }} -p 3000'

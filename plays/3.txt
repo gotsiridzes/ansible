@@ -1,0 +1,37 @@
+- name: deployment vol 3
+  hosts: all
+  become: true
+
+  vars_files:
+    - vars_3.yaml
+
+  tasks:
+    - name: install packages
+      yum:
+        name: "{{ packages }}"
+        state: present
+
+    - name: create user
+      user:
+        name: "{{ user }}"
+        password: "{{ password | password_hash('sha512') }}"
+        state: present
+
+    - name: create fact
+      set_fact:
+        message: "Ip Address of this server is = {{ ansible_default_ipv4.address }}"
+
+    - name: write message to html file
+      lineinfile:
+        path: "{{ htmlFile }}"
+        line: "<p>{{ message }}</p>"
+
+    - name: start httpd
+      service:
+        name: httpd
+        state: started
+
+    - name: enable
+      service:
+        name: httpd
+        enabled: yes

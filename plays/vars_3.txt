@@ -1,0 +1,4 @@
+packages: httpd,php,mlocate,vim
+user: upload
+password: devops
+htmlFile: /usr/share/testpage/index.html

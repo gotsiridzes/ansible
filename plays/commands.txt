@@ -1,0 +1,8 @@
+sudo su devops
+ansible all -m ping
+
+თუ ფაილი მითითებული გვაქვს yaml ფაილში:
+ansible-playbook playbook.yaml
+
+თუ ფაილი გვინდა კომანდ ლაინით მივუთითოთ:
+ansible-playbook playbook.yaml --extra-vars "@vars.yaml"

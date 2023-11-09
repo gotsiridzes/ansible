@@ -1,0 +1,7 @@
+packages: httpd,php,git
+user: upload
+password: devops
+files:
+  - /etc/localtime
+  - /etc/hosts
+create_file: /opt/backup

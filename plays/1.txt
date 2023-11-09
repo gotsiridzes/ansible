@@ -1,0 +1,47 @@
+- name: Deployment
+  hosts: all
+  become: true
+
+  vars_files:
+    - vars_1.yaml
+
+  tasks:
+
+    - name: install packages
+      yum:
+        name: "{{ packages }}"
+        state: present
+
+    - name: install pm2 package
+      command: npm install pm2@latest -g
+
+    - name: clone project
+      git:
+        repo: "{{ repoUrl }}"
+        dest: "{{ repoDest }}"
+
+    - name: start app using pm2
+      become: yes
+      command: "{{ nodeService }} start {{ repoDest }}"
+
+    - name: copy config
+      copy:
+        src: /etc/ansible/files/nodejs.conf
+        dest: /etc/nginx/conf.d/nodejs.conf
+        owner: nginx
+        group: nginx
+        mode: 0644
+
+    - name: start and enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: check connection
+      become: yes
+      command: curl -k http://localhost
+      register: output
+
+    - name: show te value of output
+      debug: var=output

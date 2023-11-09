@@ -1,0 +1,44 @@
+1. yum მოდულის გამოყენებით დააყენეთ შემდეგი პაკეტები nginx, nodejs, pm2, gi
+- name: Install a list of packages
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: install packages
+      yum:
+        name:
+          - nginx
+          - nodejs
+          - git
+        state: present
+    - name: install pm2 using npm
+      command: npm install pm2@latest -g
+
+sudo su devops
+ansible all -m ping
+ansible-playbook install-packages.yaml
+
+2. git-ის მეშვეობით ჩამოტვირთეთ მარტივი გვერდი : https://github.com/fropa/nodejs-hello.git
+--
+- name: clone repository
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: clone repository
+      git:
+        repo: https://github.com/fropa/nodejs-hello.git
+        dest: /tmp/repo/
+--
+ansible-playbook git-clone.yaml
+
+--
+- name: start app with pm2
+  hosts: all
+
+  tasks:
+  - name: start app
+    command: '/usr/local/bin/pm2 start /tmp/repo/app.js'
+--
+ansible-playbook run-with-pm2.yaml
+
