@@ -27,7 +27,7 @@
         mode: "0644"
     - name : copy files to /opt/backup
       copy:
-        src: "{{ item }}"
+        src: "{{ files }}"
         dest: "{{ create_file }}"
         remote_src: yes
       with_items: "{{ files }}"
